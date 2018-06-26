@@ -59,7 +59,6 @@ loop do
                     (1 - (1 + monthly_interest)**-duration_months))
 
   prompt("You will need to pay $#{monthly_payment.to_f.round(2)} each month.")
-  
   def leave_calculator?
     prompt('Would you like to calculate a different mortgage? (Y/N)')
     answer = gets.chomp.downcase
@@ -76,7 +75,5 @@ loop do
       leave_calculator?
     end
   end
-
   break if leave_calculator?
-
 end
