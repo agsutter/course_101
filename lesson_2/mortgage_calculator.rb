@@ -6,12 +6,12 @@ def valid?(num)
   num.to_i != 0
 end
 
-def positive?(num)
+def positive_number?(num)
   num.to_i.abs.to_s == num || num.to_f.abs.to_s == num
 end
 
-def valid_invalid(variable)
-  if valid?(variable) && positive?(variable)
+def valid_input?(input)
+  if valid?(input) && positive_number?(input)
     true
   else
     prompt('Please enter a valid number.')
@@ -29,7 +29,7 @@ loop do
     if loan_amount.include?('$')
       loan_amount.slice!('$')
     end
-    break if valid_invalid(loan_amount) == true
+    break if valid_input?(loan_amount)
   end
   prompt("Your requested loan amount is $#{loan_amount.to_f.round(2)}.")
 
@@ -38,7 +38,7 @@ loop do
     prompt('What is the loan duration (in years)?')
     loan_duration = gets.chomp
     loan_duration = loan_duration.split.first
-    break if valid_invalid(loan_duration) == true
+    break if valid_input?(loan_duration)
   end
   duration_months = loan_duration.to_i * 12
   prompt("You will be paying off your loan in #{loan_duration} years,")
@@ -49,20 +49,34 @@ loop do
     prompt('What is the yearly interest rate?')
     prompt("Write '5' for 5%, '2.5' for 2.5%, etc...")
     apr = gets.chomp
-    break if valid_invalid(apr) == true
+    break if valid_input?(apr)
   end
   monthly_interest = (apr.to_f / 100) / 12
   prompt("Your monthly interest will be #{(monthly_interest * 100).round(4)}%.")
 
-  p = loan_amount.to_f
-  n = duration_months
-  j = monthly_interest
+  monthly_payment = loan_amount.to_f *
+                    (monthly_interest /
+                    (1 - (1 + monthly_interest)**-duration_months))
 
-  m = p * (j / (1 - (1 + j)**-n))
+  prompt("You will need to pay $#{monthly_payment.to_f.round(2)} each month.")
+  
+  def leave_calculator?
+    prompt('Would you like to calculate a different mortgage? (Y/N)')
+    answer = gets.chomp.downcase
+    negative    = ['no', 'negative', 'nah', 'x', 'n']
+    affirmative = ['yes', 'yeah', 'yep', 'ya', 'y', 'ye']
+    if negative.include?(answer)
+      prompt("Have a nice day!")
+      true
+    elsif affirmative.include?(answer)
+      false
+    elsif answer != affirmative || answer != negative
+      prompt("Hmmm...I'm not sure what you want to do.")
+      prompt("Will you answer the question more clearly? Enter 'y' or 'n'")
+      leave_calculator?
+    end
+  end
 
-  prompt("You will need to pay $#{m.to_f.round(2)} each month.")
+  break if leave_calculator?
 
-  prompt('Would you like to calculate a different mortgage?')
-  answer = gets.chomp
-  break if answer[0..1].casecmp?('no')
 end
