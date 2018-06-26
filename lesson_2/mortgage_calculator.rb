@@ -59,21 +59,21 @@ loop do
                     (1 - (1 + monthly_interest)**-duration_months))
 
   prompt("You will need to pay $#{monthly_payment.to_f.round(2)} each month.")
-  def leave_calculator?
-    prompt('Would you like to calculate a different mortgage? (Y/N)')
+  def break_loop?(question, array1, array2)
+    prompt(question)
     answer = gets.chomp.downcase
-    negative    = ['no', 'negative', 'nah', 'x', 'n']
-    affirmative = ['yes', 'yeah', 'yep', 'ya', 'y', 'ye']
-    if negative.include?(answer)
-      prompt("Have a nice day!")
+    if array1.include?(answer)
       true
-    elsif affirmative.include?(answer)
+    elsif array2.include?(answer)
       false
-    elsif answer != affirmative || answer != negative
+    elsif answer != array1 || answer != array2
       prompt("Hmmm...I'm not sure what you want to do.")
       prompt("Will you answer the question more clearly? Enter 'y' or 'n'")
-      leave_calculator?
+      break_loop?(question, array1, array2)
     end
   end
-  break if leave_calculator?
+  negative    = ['no', 'negative', 'nah', 'x', 'n']
+  affirmative = ['yes', 'yeah', 'yep', 'ya', 'y', 'ye']
+  question = 'Would you like to calculate a different mortgage? (Y/N)'
+  break if break_loop?(question, negative, affirmative)
 end
