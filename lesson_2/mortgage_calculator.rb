@@ -64,5 +64,5 @@ loop do
 
   prompt('Would you like to calculate a different mortgage?')
   answer = gets.chomp
-  break if answer[0].casecmp?('n')
+  break if answer[0..1].casecmp?('no')
 end
