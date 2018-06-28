@@ -19,6 +19,20 @@ def valid_input?(input)
   end
 end
 
+def calculate_another_loan?(question, array1, array2)
+  prompt(question)
+  answer = gets.chomp.downcase
+  if array1.include?(answer)
+    true
+  elsif array2.include?(answer)
+    false
+  elsif answer != array1 || answer != array2
+    prompt("Hmmm...I'm not sure what you want to do.")
+    prompt("Will you answer the question more clearly? Enter 'y' or 'n'")
+    calculate_another_loan?(question, array1, array2)
+  end
+end
+
 prompt('Welcome to the mortgage calculator!')
 
 loop do
@@ -59,21 +73,10 @@ loop do
                     (1 - (1 + monthly_interest)**-duration_months))
 
   prompt("You will need to pay $#{monthly_payment.to_f.round(2)} each month.")
-  def break_loop?(question, array1, array2)
-    prompt(question)
-    answer = gets.chomp.downcase
-    if array1.include?(answer)
-      true
-    elsif array2.include?(answer)
-      false
-    elsif answer != array1 || answer != array2
-      prompt("Hmmm...I'm not sure what you want to do.")
-      prompt("Will you answer the question more clearly? Enter 'y' or 'n'")
-      break_loop?(question, array1, array2)
-    end
-  end
+
+  question = 'Would you like to calculate a different mortgage? (Y/N)'
+
   negative    = ['no', 'negative', 'nah', 'x', 'n']
   affirmative = ['yes', 'yeah', 'yep', 'ya', 'y', 'ye']
-  question = 'Would you like to calculate a different mortgage? (Y/N)'
-  break if break_loop?(question, negative, affirmative)
+  break if calculate_another_loan?(question, negative, affirmative)
 end
