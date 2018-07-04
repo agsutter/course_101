@@ -33,6 +33,12 @@ def calculate_another_loan?(question, array1, array2)
   end
 end
 
+def duration_months(duration)
+  remainder = duration.to_f % duration.to_i
+  total_months = (duration.to_i * 12) + (remainder * 12)
+  total_months.to_f.round(2)
+end
+
 prompt('Welcome to the mortgage calculator!')
 
 loop do
@@ -40,12 +46,10 @@ loop do
   prompt('What is the loan amount?')
   loop do
     loan_amount = gets.chomp
-    if loan_amount.include?('$')
-      loan_amount.slice!('$')
-    end
+    return loan_amount.slice!('$') if loan_amount.include?('$')
     break if valid_input?(loan_amount)
   end
-  prompt("Your requested loan amount is $#{loan_amount.to_f.round(2)}.")
+  prompt("Your requested loan amount is $#{sprintf('%.2f', loan_amount.to_f)}.")
 
   loan_duration = ''
   loop do
@@ -54,9 +58,8 @@ loop do
     loan_duration = loan_duration.split.first
     break if valid_input?(loan_duration)
   end
-  duration_months = loan_duration.to_i * 12
   prompt("You will be paying off your loan in #{loan_duration} years,")
-  prompt("or #{duration_months} months.")
+  prompt("or #{duration_months(loan_duration)} months.")
 
   apr = ''
   loop do
@@ -70,7 +73,7 @@ loop do
 
   monthly_payment = loan_amount.to_f *
                     (monthly_interest /
-                    (1 - (1 + monthly_interest)**-duration_months))
+                    (1 - (1 + monthly_interest)**-duration_months(loan_duration)))
 
   prompt("You will need to pay $#{monthly_payment.to_f.round(2)} each month.")
 
