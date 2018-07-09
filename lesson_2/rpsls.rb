@@ -23,9 +23,9 @@ def number_provided(number)
   number.to_i.abs.to_s == number.to_s && (1..5).cover?(number.to_i)
 end
 
-def return_choice(input, given_array)
-  return input = given_array[input.to_i - 1][1] if number_provided(input)
-  choices = given_array.map(&:last)
+def return_choice(input)
+  return input = VALID_CHOICES[input.to_i - 1][1] if number_provided(input)
+  choices = VALID_CHOICES.map(&:last)
   choices.any? do |choice|
     break if input == 's'
     return input = choice if choice[0] == input || choice == input
@@ -33,18 +33,18 @@ def return_choice(input, given_array)
   prompt("Please write the full word or associated number.") if input == 's'
 end
 
-def player_chooses(given_array)
-  choices_array = given_array.map { |num, item| "#{num}. #{item}" }
+def player_chooses
+  choices_array = VALID_CHOICES.map { |num, item| "#{num}. #{item}" }
   prompt("Choose one: #{choices_array.join(', ')}")
   choice = gets.chomp.downcase
-  choice = return_choice(choice, given_array)
-  return choice if given_array.flatten.include?(choice)
+  choice = return_choice(choice)
+  return choice if VALID_CHOICES.flatten.include?(choice)
   prompt("That's not a valid choice.")
-  player_chooses(given_array)
+  player_chooses
 end
 
-def computer_chooses(given_array)
-  computer_choice = given_array.map(&:last)
+def computer_chooses
+  computer_choice = VALID_CHOICES.map(&:last)
   computer_choice.sample
 end
 
@@ -52,15 +52,21 @@ def win?(first, second)
   WINNER[second].include?(first)
 end
 
+def winner?(player, computer)
+  winner = 'computer' if win?(player, computer)
+  winner = 'player' if win?(computer, player)
+  winner
+end
+
 def display_results(player, computer)
-  return prompt('You won!') if win?(computer, player)
-  return prompt('Computer won!') if win?(player, computer)
+  return prompt('You won!') if winner?(player, computer) == 'player'
+  return prompt('Computer won!') if winner?(player, computer) == 'computer'
   prompt("It's a tie!")
 end
 
 def keep_score(score_hash, player, computer)
-  return score_hash[:computer] += 1 if win?(player, computer)
-  return score_hash[:player] += 1 if win?(computer, player)
+  return score_hash[:computer] += 1 if winner?(player, computer) == 'computer'
+  return score_hash[:player] += 1 if winner?(player, computer) == 'player'
 end
 
 def print_score(score_hash)
@@ -85,8 +91,8 @@ end
 score = { player: 0, computer: 0 }
 
 loop do
-  player_choice = player_chooses(VALID_CHOICES)
-  computer_choice = computer_chooses(VALID_CHOICES)
+  player_choice = player_chooses
+  computer_choice = computer_chooses
 
   prompt("You chose: #{player_choice}; Computer chose: #{computer_choice}")
 
