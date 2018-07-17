@@ -52,21 +52,21 @@ def win?(first, second)
   WINNER[second].include?(first)
 end
 
-def winner?(player, computer)
+def get_winner(player, computer)
   winner = 'computer' if win?(player, computer)
   winner = 'player' if win?(computer, player)
   winner
 end
 
-def display_results(player, computer)
-  return prompt('You won!') if winner?(player, computer) == 'player'
-  return prompt('Computer won!') if winner?(player, computer) == 'computer'
+def display_results(winner)
+  return prompt('You won!') if winner == 'player'
+  return prompt('Computer won!') if winner == 'computer'
   prompt("It's a tie!")
 end
 
-def keep_score(score_hash, player, computer)
-  return score_hash[:computer] += 1 if winner?(player, computer) == 'computer'
-  return score_hash[:player] += 1 if winner?(player, computer) == 'player'
+def keep_score(score_hash, winner)
+  return score_hash[:computer] += 1 if winner == 'computer'
+  return score_hash[:player] += 1 if winner == 'player'
 end
 
 def print_score(score_hash)
@@ -96,8 +96,10 @@ loop do
 
   prompt("You chose: #{player_choice}; Computer chose: #{computer_choice}")
 
-  display_results(player_choice, computer_choice)
-  keep_score(score, player_choice, computer_choice)
+  winner = get_winner(player_choice, computer_choice)
+
+  display_results(winner)
+  keep_score(score, winner)
   print_score(score)
   grand_winner(score)
   break if score[:player] >= 5 || score[:computer] >= 5
