@@ -8,4 +8,4 @@
 #    The Flintstones Rock!
 #     The Flintstones Rock!
 
-10.times { |times| puts "The Flintstones Rock".prepend(' ' * times) }
+10.times { |time| puts "The Flintstones Rock".prepend(' ' * time) }
