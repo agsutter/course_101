@@ -11,12 +11,9 @@ def positive_number?(num)
 end
 
 def valid_input?(input)
-  if valid?(input) && positive_number?(input)
-    true
-  else
-    prompt('Please enter a valid number.')
-    false
-  end
+  return true if valid?(input) && positive_number?(input)
+  prompt('Please enter a valid number.')
+  false
 end
 
 def calculate_another_loan?(question, array1, array2)
@@ -49,7 +46,7 @@ loop do
     return loan_amount.slice!('$') if loan_amount.include?('$')
     break if valid_input?(loan_amount)
   end
-  prompt("Your requested loan amount is $#{sprintf('%.2f', loan_amount.to_f)}.")
+  prompt("Your requested loan amount is $#{format('%.2f', loan_amount.to_f)}.")
 
   loan_duration = ''
   loop do
@@ -73,7 +70,8 @@ loop do
 
   monthly_payment = loan_amount.to_f *
                     (monthly_interest /
-                    (1 - (1 + monthly_interest)**-duration_months(loan_duration)))
+                    (1 - (1 + monthly_interest)**-
+                    duration_months(loan_duration)))
 
   prompt("You will need to pay $#{monthly_payment.to_f.round(2)} each month.")
 

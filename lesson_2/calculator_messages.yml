@@ -1,0 +1,48 @@
+en:
+  welcome: "Welcome to the Calculator! Enter your name:"
+  greet: "Hi, "
+  valid_name: "Make sure to enter a valid name."
+  get_number_1: "What's the first number?"
+  get_number_2: "What's the second number?"
+  number_1: "The first number is: "
+  number_2: "The second number is: "
+  invalid_number: 'Please enter a valid number.'
+  invalid_operator: 'That is not an accepted operation.'
+  operator: 'Please choose a number that corresponds with the desired operation.'
+  results: "The result is "
+  again: "Would you like to calculator another number? (Y/N)"
+  goodbye: "Thank you for using the calculator. Goodbye!"
+  operator_prompt:
+    "What operation would you like to perform?
+    1) add
+    2) subtract
+    3) multiply
+    4) divide"
+  add: 'Adding'
+  subtract: 'Subtracting'
+  multiply: 'Multiplying'
+  divide: 'Dividing'
+es:
+  welcome: "¡Bienvenido a la calculadora! Introduzca su nombre:"
+  greet: "Hola, "
+  valid_name: "Asegúrate de ingresar un nombre válido."
+  get_number_1: "¿Cuál es el primer número?"
+  get_number_2: "¿Cuál es el segundo número?"
+  number_1: "El primer número es: "
+  number_2: "El segundo número es: "
+  invalid_number: "Por favor ingrese un número valido."
+  invalid_operator: "Esa no es una operación aceptada."
+  operator: "Elija un número que corresponda con la operación deseada."
+  results: "El resultado es "
+  again: "¿Te gustaría calcular otro número? (S / N)"
+  goodbye: "Gracias por usar la calculadora. ¡Adiós!"
+  operator_prompt:
+    "¿Qué operación te gustaría realizar?
+    1) añadir
+    2) sustraer
+    3) multiplicar
+    4) dividir"
+  add: 'Añadiendo'
+  subtract: 'Restando'
+  multiply: 'Multiplicando'
+  divide: 'Divisor'
